@@ -1,9 +1,80 @@
 
-;
-; Given n resistors, finds their unique combinations
-; and their equivalent resistances.
-;
+; 
+; This program is free software: you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation, either version 3 of the License, or
+; (at your option) any later version.
+; 
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+; 
+; You should have received a copy of the GNU General Public License
+; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+; 
 
+; NOTE: the description below is duplicated in README.md
+;
+; NAME
+; ----
+; 
+; Resistor Combinator - Generate combinations of resistors in series and parallel.
+; 
+; INTRODUCTION
+; ------------
+; 
+; A single resistor has a single combination.
+; Two resistors have two combinations: one in series and one in parallel.
+; Three resistors have many combinations.
+; How many combinations do n resistors have?
+; 
+; This project aims to answer this question by generating all the possible
+; combinations and calculating their equivalent resistances.
+; 
+; USAGE
+; -----
+;
+;     ; An example session for the Resistor Combinator
+;     
+;    (defvar r)
+;    (defvar s)
+;     
+;    ; several UNIQUE resistors
+;    (setq r '(1 2 3))
+;    (setq s (allcombs r))
+;     
+;    (uniquevals s)
+;    ; (6/11 5/6 4/3 3/2 11/5 11/4 11/3 6)
+;     
+;    ; several IDENTICAL resistors
+;    (setq r '(1 1 1))
+;    (setq s (allcombs r))
+;     
+;    (uniquevals s)
+;    ; (1/3 2/3 3/2 3)
+;     
+;    (dispcombvals s)
+;     
+;    ; symbolic display of resistor combinations
+;    (setq r '(A B C))
+;    (setq s (allcombs r))
+;     
+;    (dispcombs s)
+;    ; (+ (+ A B) C) 
+;    ; (|| (+ A B) C) 
+;    ; (+ (|| A B) C) 
+;    ; (|| (|| A B) C) 
+;    ; (+ (+ A C) B) 
+;    ; (|| (+ A C) B) 
+;    ; (+ (|| A C) B) 
+;    ; (|| (|| A C) B) 
+;    ; (+ (+ B C) A) 
+;    ; (|| (+ B C) A) 
+;    ; (+ (|| B C) A) 
+;    ; (|| (|| B C) A) 
+;
+ 
 (defun series (R1 R2)
   (+ R1 R2))
 
@@ -65,11 +136,6 @@
 ; }}}
 
 ; {{{ secondpair, secondpairs
-; 
-(defun secondpairs (src)
-  "Find all second pairs in the list"
-  (apply #'append (mapcar #'secondpair src)))
-
 ;
 ; Treat the first list as a single element and create the next
 ; set of pairs using the remaining elements.
@@ -94,6 +160,9 @@
 		  (setq acc (cons (car j) acc)))
 	res))
 
+(defun secondpairs (src)
+  "Find all second pairs in the list"
+  (apply #'append (mapcar #'secondpair src)))
 ; }}}
 
 ; {{{ allcombs
@@ -141,20 +210,19 @@
 
 ; {{{ display utilities
 
-; {{{ uniquevals
 (defun uniquevals (x)
   "Display all unique values in sorted order."
   (remove-duplicates (sort (mapcar (lambda (y) (eval (car y))) x) #'<)))
-; TODO - remove-duplicates could be made more efficient
-; }}}
 
 (defun dispvals (x)
+  "Display all the values."
   (mapc (lambda (x)
 		  (print (eval (car x))))
 		x)
   t)
 
 (defun dispcombvals (x)
+  "Display the combinations along with their associated value.".
   (mapc (lambda (x)
 		  (print (car x))
 		  (print (eval (car x))))
@@ -162,6 +230,7 @@
   t)
 
 (defun dispcombs (x)
+  "Display all the combinations."
   (mapc (lambda (x)
 		  (print (car x)))
 		x)
@@ -169,3 +238,4 @@
 ; }}}
 
 ; vim:foldmethod=marker
+

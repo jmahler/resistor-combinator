@@ -2,7 +2,7 @@
 NAME
 ----
 
-resistor-combinator - Generate combinations of resistors in series and parallel.
+Resistor Combinator - Generate combinations of resistors in series and parallel.
 
 INTRODUCTION
 ------------
@@ -14,6 +14,49 @@ How many combinations do n resistors have?
 
 This project aims to answer this question by generating all the possible
 combinations and calculating their equivalent resistances.
+
+USAGE
+-----
+
+    ; An example session for the Resistor Combinator
+     
+    (defvar r)
+    (defvar s)
+     
+    ; several UNIQUE resistors
+    (setq r '(1 2 3))
+    (setq s (allcombs r))
+     
+    (uniquevals s)
+    ; (6/11 5/6 4/3 3/2 11/5 11/4 11/3 6)
+     
+    ; several IDENTICAL resistors
+    (setq r '(1 1 1))
+    (setq s (allcombs r))
+     
+    (uniquevals s)
+    ; (1/3 2/3 3/2 3)
+     
+    (dispcombvals s)
+     
+    ; symbolic display of resistor combinations
+    (setq r '(A B C))
+    (setq s (allcombs r))
+     
+    (dispcombs s)
+    ; (+ (+ A B) C) 
+    ; (|| (+ A B) C) 
+    ; (+ (|| A B) C) 
+    ; (|| (|| A B) C) 
+    ; (+ (+ A C) B) 
+    ; (|| (+ A C) B) 
+    ; (+ (|| A C) B) 
+    ; (|| (|| A C) B) 
+    ; (+ (+ B C) A) 
+    ; (|| (+ B C) A) 
+    ; (+ (|| B C) A) 
+    ; (|| (|| B C) A) 
+
 
 AUTHOR
 ------
